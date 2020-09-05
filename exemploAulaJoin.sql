@@ -71,3 +71,55 @@ c.uf in ('rj') and
 pr.desc_prod = "Chapa de Aço" and
 p.prazo_entr > 15
 order by c.nome_cli;
+
+-- Mostre os nomes de todos os vendedores que venderam Chapa de aço em quantidade superiror a 300Kg
+-- OBS: distinct não repete os dados
+select distinct v.nome_vend from vendedor v, pedido p, produto pr, item_pedido ip where
+v.cod_vend = p.cod_vend and
+p.num_ped = ip.num_ped and
+pr.cod_prod = ip.cod_prod and
+ip.qtd_ped > 300 and
+pr.desc_prod = "Chapa de Aço";
+
+-- Quantos clientes fizeram pedidos com a vendedora Ana
+-- Cristina?
+select count(distinct c.cod_cli) AS Ana_Cristina_Vendas from vendedor v, pedido p, cliente c where
+c.cod_cli = p.cod_cli and
+v.cod_vend = p.cod_vend and
+v.nome_vend = "Ana Cristina";
+
+select count(distinct c.cod_cli), c.cidade from cliente c, pedido p, vendedor v where
+c.cod_cli = p.cod_cli and
+v.cod_vend = p.cod_vend and
+v.nome_vend = "Ana Cristina" and
+c.cidade in ("rio de janeiro", "Níteroi")
+group by c.cidade;
+
+
+select * from cargo;
+
+select * from funcionario;
+
+-- Exemplo com inner join
+select f.nome, c.nome_cargo from cargo c inner join funcionario f on
+f.cod_cargo = c.cod_cargo;
+
+-- Exemplo com left join
+select f.nome, c.nome_cargo from funcionario f left join cargo c on
+f.cod_cargo = c.cod_cargo;
+
+-- Exemplo com right join
+select f.nome, c.nome_cargo from funcionario f right join cargo c on
+f.cod_cargo = c.cod_cargo;
+
+-- Exemplo de full outher join
+
+select f.nome, c.nome_cargo from funcionario f right join cargo c on
+f.cod_cargo = c.cod_cargo
+union
+select f.nome, c.nome_cargo from funcionario f left join cargo c on
+f.cod_cargo = c.cod_cargo;
+
+
+
+
